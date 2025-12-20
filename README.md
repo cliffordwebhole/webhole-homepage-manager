@@ -76,12 +76,17 @@ Available options:
 
 ## 📸 Screenshots
 
-Screenshots are included in the repository and demonstrate:
+### WordPress Settings
+![Settings Page](screenshots/screenshot-1.png)
 
-- Plugin settings page
-- Maintenance mode front page
-- Custom front page mode
-- Admin bar status indicator
+### Admin Preview Mode
+![Preview Mode](screenshots/screenshot-2.png)
+
+### Admin Bar Status
+![Admin Bar Status](screenshots/screenshot-3.png)
+
+### Settings Page
+![Maintenance Mode](screenshots/screenshot-4.png)
 
 ---
 
