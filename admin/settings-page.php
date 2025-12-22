@@ -1,18 +1,48 @@
 <?php
 if (!defined('ABSPATH')) exit;
+function fpp_sanitize_checkbox($value) {
+    return $value ? 1 : 0;
+}
 
+function fpp_sanitize_mode($value) {
+    $allowed = ['maintenance', 'front_page'];
+    return in_array($value, $allowed, true) ? $value : 'maintenance';
+}
+
+function fpp_sanitize_source($value) {
+    $allowed = ['template', 'page'];
+    return in_array($value, $allowed, true) ? $value : 'template';
+}
+
+function fpp_sanitize_page_id($value) {
+    return absint($value);
+}
 /**
  * Register settings
  */
-function fpp_register_settings() {
-    register_setting('fpp_settings', 'fpp_enabled');
-    register_setting('fpp_settings', 'fpp_mode');
-    register_setting('fpp_settings', 'fpp_front_source');
-    register_setting('fpp_settings', 'fpp_front_page_id');
-    register_setting('fpp_settings', 'fpp_show_dev_message');
-}
-add_action('admin_init', 'fpp_register_settings');
+register_setting(
+    'fpp_settings',
+    'fpp_enabled',
+    ['sanitize_callback' => 'fpp_sanitize_checkbox']
+);
 
+register_setting(
+    'fpp_settings',
+    'fpp_mode',
+    ['sanitize_callback' => 'fpp_sanitize_mode']
+);
+
+register_setting(
+    'fpp_settings',
+    'fpp_front_source',
+    ['sanitize_callback' => 'fpp_sanitize_source']
+);
+
+register_setting(
+    'fpp_settings',
+    'fpp_front_page_id',
+    ['sanitize_callback' => 'fpp_sanitize_page_id']
+);
 /**
  * Add menu item
  */

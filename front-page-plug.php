@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Front Page Plug
  * Description: Adds a custom front page or enables maintenance mode without modifying the active theme.
- * Version: 0.1.0
+ * Version: 0.1.1
  * Author: Clifford Webhole
  * Author URI: https://cliffordswebhole.com
  * License: GPLv2 or later
