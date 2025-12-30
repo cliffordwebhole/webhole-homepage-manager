@@ -1,119 +1,118 @@
-# Front Page Plug
+# Webhole Homepage Manager
 
-Front Page Plug is a lightweight WordPress plugin that allows site owners and developers to:
+**Webhole Homepage Manager** is a lightweight WordPress plugin that allows you to temporarily override your site’s homepage with a maintenance, holding, or custom page — without touching your theme or core files.
 
-- Display a custom front page without modifying the active theme
-- Enable a clean maintenance mode
-- Preview changes safely as an administrator
-- Keep development work hidden while still informing visitors
-
-Built for developers who value simplicity, control, and transparency.
+Built for developers, sysadmins, and site owners who want **control without bloat**.
 
 ---
 
 ## ✨ Features
 
-- ✅ Maintenance Mode (restricts site access to a single front page)
-- ✅ Custom Front Page Mode (replace homepage while keeping site accessible)
-- ✅ Built-in front page template or existing WordPress page selection
-- ✅ Admin-only preview mode (nonce-protected)
-- ✅ Admin bar status badge
-- ✅ Optional developer message / announcement box
-- ✅ No theme modification required
-- ✅ No tracking, no telemetry, no ads
+- 🔧 Enable / disable homepage override instantly
+- 🧭 Multiple modes:
+  - Default maintenance template
+  - Existing WordPress page
+- 👀 Secure preview mode (admin-only, nonce-protected)
+- 🔁 Exit preview at any time
+- 🧩 Works with any theme
+- 🧼 No database clutter, no page builders, no shortcodes
+- 📣 Optional developer announcements (remote message feed)
 
 ---
 
-## 🧭 Plugin Modes
+## 🧠 How It Works
 
-### 🔒 Maintenance Mode
-Displays a single front page to visitors and blocks access to the rest of the site.  
-Administrators retain full access.
+When enabled, the plugin intercepts homepage requests and conditionally renders:
 
-Ideal for:
-- Active development
-- Server maintenance
-- Site rebuilds
+- A **clean default maintenance template**, or
+- A **selected existing WordPress page**
 
----
-
-### 🏠 Custom Front Page Mode
-Replaces only the homepage while allowing visitors to browse posts and pages normally.
-
-Ideal for:
-- Landing pages
-- Announcements
-- Temporary homepages
-- Custom layouts without touching the theme
-
----
-
-## 🔍 Preview Mode (Admins Only)
-
-Administrators can preview the front page exactly as visitors will see it without enabling it publicly.
-
-Preview mode is:
-- Admin-only
-- Nonce-protected
-- Clearly indicated in the admin interface
+Visitors see the maintenance page.  
+Admins can preview safely without affecting the public site.
 
 ---
 
 ## ⚙️ Settings
 
-All plugin settings are available under:
-
-**Settings → Front Page Plug**
+Navigate to: WordPress Admin → Settings → Webhole Homepage Manager
 
 Available options:
-- Enable / Disable the plugin
-- Select operating mode
-- Choose front page source (template or existing page)
-- Preview front page
-- Toggle developer messages
+
+- Enable / Disable override
+- Select mode (Default Template or Existing Page)
+- Preview homepage override
+- Exit preview
+- Toggle developer announcements
 
 ---
 
-## 📸 Screenshots
+## 🖼 Default Maintenance Template
 
-### WordPress Settings
-![Settings Page](screenshots/screenshot-1.png)
+The default template automatically displays:
 
-### Admin Preview Mode
-![Preview Mode](screenshots/screenshot-2.png)
+- Site name
+- Maintenance mode notice
+- Clean, minimal layout
+- Dynamic copyright footer
 
-### Admin Bar Status
-![Admin Bar Status](screenshots/screenshot-3.png)
+Example output:
 
-### Settings Page
-![Maintenance Mode](screenshots/screenshot-4.png)
-
----
-
-## 🧑‍💻 Philosophy
-
-Front Page Plug is built with the following principles:
-
-- Respect user privacy
-- Avoid unnecessary complexity
-- Keep logic transparent
-- Fail safely and predictably
-- Never lock users into a theme or framework
+> **Site Name**  
+> This site is currently in maintenance mode.  
+> Please check back soon.
 
 ---
 
-## 📦 Installation
+## 📣 Developer Announcements
 
-1. Upload the plugin folder to `/wp-content/plugins/`
-2. Activate **Front Page Plug**
-3. Go to **Settings → Front Page Plug**
-4. Choose your preferred mode and configuration
+The plugin can optionally display announcements pulled from the Webhole
+Admins may toggle this on or off from the settings page.
 
 ---
 
-## 🧾 License
+## 🔐 Security Notes
 
-This plugin is licensed under the **GPL-2.0-or-later** license.
+- Preview mode is protected by nonces
+- Admin-only access
+- No unauthenticated AJAX endpoints
+- No external writes
 
-© Clifford Webhole  
+---
+
+## 🧪 Compatibility
+
+- WordPress 6.x+
+- PHP 8.0 – 8.3
+- Apache / Nginx
+- Docker & VPS environments tested
+
+---
+
+## 📂 Plugin Structure
+webhole-homepage-manager/ ├── admin/ ├── assets/ ├── screenshots/ ├──
+webhole-homepage-manager.php ├── README.md ├── CHANGELOG.md ├── LICENSE
+
+---
+
+## 🛠 Philosophy
+
+This plugin was built with one goal:
+
+> **Do one thing well. Stay out of the way.**
+
+No tracking.
+No upsells. 
+No nonsense.
+
+---
+
+## 👤 Author
+
+**Clifford Webhole** 
 https://cliffordswebhole.com
+https://github.com/cliffordwebhole
+---
+
+## 📄 License
+
+MIT License — see `LICENSE` file for details.

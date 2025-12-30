@@ -1,196 +1,218 @@
 <?php
-if (!defined('ABSPATH')) exit;
-function fpp_sanitize_checkbox($value) {
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+/* ---------------------------------------------------------
+ * SANITIZERS
+ * --------------------------------------------------------- */
+function whm_sanitize_checkbox( $value ) {
     return $value ? 1 : 0;
 }
 
-function fpp_sanitize_mode($value) {
-    $allowed = ['maintenance', 'front_page'];
-    return in_array($value, $allowed, true) ? $value : 'maintenance';
+function whm_sanitize_mode( $value ) {
+    $allowed = array( 'maintenance', 'front_page' );
+    return in_array( $value, $allowed, true ) ? $value : 'maintenance';
 }
 
-function fpp_sanitize_source($value) {
-    $allowed = ['template', 'page'];
-    return in_array($value, $allowed, true) ? $value : 'template';
+function whm_sanitize_source( $value ) {
+    $allowed = array( 'template', 'page' );
+    return in_array( $value, $allowed, true ) ? $value : 'template';
 }
 
-function fpp_sanitize_page_id($value) {
-    return absint($value);
+function whm_sanitize_page_id( $value ) {
+    return absint( $value );
 }
-/**
- * Register settings
- */
-register_setting(
-    'fpp_settings',
-    'fpp_enabled',
-    ['sanitize_callback' => 'fpp_sanitize_checkbox']
-);
 
-register_setting(
-    'fpp_settings',
-    'fpp_mode',
-    ['sanitize_callback' => 'fpp_sanitize_mode']
-);
+/* ---------------------------------------------------------
+ * REGISTER SETTINGS
+ * --------------------------------------------------------- */
+add_action( 'admin_init', function () {
 
-register_setting(
-    'fpp_settings',
-    'fpp_front_source',
-    ['sanitize_callback' => 'fpp_sanitize_source']
-);
-
-register_setting(
-    'fpp_settings',
-    'fpp_front_page_id',
-    ['sanitize_callback' => 'fpp_sanitize_page_id']
-);
-/**
- * Add menu item
- */
-function fpp_add_menu() {
-    add_options_page(
-        'Front Page Plug',
-        'Front Page Plug',
-        'manage_options',
-        'front-page-plug',
-        'fpp_settings_page'
+    register_setting(
+        'whm_settings',
+        WHM_OPT_ENABLED,
+        array( 'sanitize_callback' => 'whm_sanitize_checkbox' )
     );
-}
-add_action('admin_menu', 'fpp_add_menu');
 
-/**
- * Settings page markup
- */
-function fpp_settings_page() {
-?>
-<div class="wrap">
-    <h1>Front Page Plug</h1>
-<?php
-$preview_url = add_query_arg(
-    [
-        'fpp_preview' => '1',
-        '_fpp_nonce'  => wp_create_nonce('fpp_preview'),
-    ],
-    home_url('/')
-);
-?>
+    register_setting(
+        'whm_settings',
+        WHM_OPT_MODE,
+        array( 'sanitize_callback' => 'whm_sanitize_mode' )
+    );
 
-<p>
-    <a href="<?php echo esc_url($preview_url); ?>"
-       target="_blank"
-       class="button button-secondary">
-        Preview Front Page
-    </a>
-</p>
-    <form method="post" action="options.php">
-        <?php settings_fields('fpp_settings'); ?>
+    register_setting(
+        'whm_settings',
+        WHM_OPT_SOURCE,
+        array( 'sanitize_callback' => 'whm_sanitize_source' )
+    );
 
-        <table class="form-table">
+    register_setting(
+        'whm_settings',
+        WHM_OPT_PAGE_ID,
+        array( 'sanitize_callback' => 'whm_sanitize_page_id' )
+    );
 
-            <tr>
-                <th scope="row">Enable Plugin</th>
-                <td>
-                    <label>
-                        <input type="checkbox" name="fpp_enabled" value="1"
-                            <?php checked(1, get_option('fpp_enabled')); ?>>
-                        Activate Front Page Plug
-                    </label>
-                </td>
-            </tr>
+    register_setting(
+        'whm_settings',
+        WHM_OPT_SHOW_DEVMSG,
+        array( 'sanitize_callback' => 'whm_sanitize_checkbox' )
+    );
+});
 
-            <tr>
-                <th scope="row">Mode</th>
-                <td>
-                    <select name="fpp_mode">
-                        <option value="maintenance" <?php selected(get_option('fpp_mode'), 'maintenance'); ?>>
-                            Maintenance Mode
-                        </option>
-                        <option value="front_page" <?php selected(get_option('fpp_mode'), 'front_page'); ?>>
-                            Custom Front Page Mode
-                        </option>
-                    </select>
-                    <p class="description">
-                        <strong>Maintenance:</strong> Only the front page is visible to visitors.<br>
-                        <strong>Custom Front Page:</strong> Replace the homepage without blocking site access.
-                    </p>
-                </td>
-            </tr>
+/* ---------------------------------------------------------
+ * ADMIN MENU
+ * --------------------------------------------------------- */
+add_action( 'admin_menu', function () {
 
-            <tr>
-                <th scope="row">Front Page Source</th>
-                <td>
-                    <select name="fpp_front_source">
-                        <option value="template" <?php selected(get_option('fpp_front_source'), 'template'); ?>>
-                            Built-in Front Page Template
-                        </option>
-                        <option value="page" <?php selected(get_option('fpp_front_source'), 'page'); ?>>
-                            Use Existing Page
-                        </option>
-                    </select>
-                    <p class="description">
-                        Choose whether to use the plugin’s built-in front page or an existing WordPress page.
-                    </p>
-                </td>
-            </tr>
+    add_options_page(
+        'Webhole Homepage Manager',
+        'Homepage Manager',
+        'manage_options',
+        'webhole-homepage-manager',
+        'whm_settings_page'
+    );
+});
 
-            <tr>
-                <th scope="row">Select Front Page</th>
-                <td>
-                    <?php
-                    wp_dropdown_pages([
-                        'name'              => 'fpp_front_page_id',
-                        'show_option_none'  => '— Select a page —',
-                        'option_none_value' => '',
-                        'selected'          => get_option('fpp_front_page_id'),
-                    ]);
-                    ?>
-                    <p class="description">
-                        Only used when “Use Existing Page” is selected.
-                    </p>
-                </td>
-            </tr>
-<tr>
-    <th scope="row">Developer Messages</th>
-    <td>
-        <label>
-            <input type="checkbox" name="fpp_show_dev_message" value="1"
-                <?php checked(1, get_option('fpp_show_dev_message', 1)); ?>>
-            Show messages from the plugin developer
-        </label>
-        <p class="description">
-            Displays occasional announcements, updates, and thank-you notes from the developer.
+/* ---------------------------------------------------------
+ * SETTINGS PAGE UI
+ * --------------------------------------------------------- */
+function whm_settings_page() {
+
+    $preview_url = add_query_arg(
+        array(
+            'whm_preview' => '1',
+            '_whm_nonce'  => wp_create_nonce( 'whm_preview' ),
+        ),
+        home_url( '/' )
+    );
+    ?>
+    <div class="wrap">
+        <h1>Webhole Homepage Manager</h1>
+
+        <p>
+            <a href="<?php echo esc_url( $preview_url ); ?>"
+               target="_blank"
+               class="button button-secondary">
+                Preview Frontend
+            </a>
         </p>
-    </td>
-</tr>
-        </table>
 
-        <?php submit_button(); ?>
-    </form>
-<?php
-if (get_option('fpp_show_dev_message', 1)) :
+        <form method="post" action="options.php">
+            <?php settings_fields( 'whm_settings' ); ?>
 
-    $message = fpp_get_developer_message();
+            <table class="form-table">
 
-    if ($message) :
-?>
-    <div style="
-        margin-top: 30px;
-        padding: 15px 20px;
-        background: #0f172a;
-        color: #e5e7eb;
-        border-left: 4px solid #7c3aed;
-        border-radius: 4px;
-    ">
-        <h2 style="margin-top:0;color:#c4b5fd;">
-            Message from the Developer
-        </h2>
-        <div style="white-space: pre-line;">
-            <?php echo esc_html($message); ?>
-        </div>
+                <tr>
+                    <th scope="row">Enable Plugin</th>
+                    <td>
+                        <label>
+                            <input type="checkbox"
+                                   name="<?php echo esc_attr( WHM_OPT_ENABLED ); ?>"
+                                   value="1"
+                                   <?php checked( 1, get_option( WHM_OPT_ENABLED, 0 ) ); ?>>
+                            Activate Webhole Homepage Manager
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Mode</th>
+                    <td>
+                        <select name="<?php echo esc_attr( WHM_OPT_MODE ); ?>">
+                            <option value="maintenance"
+                                <?php selected( get_option( WHM_OPT_MODE, 'maintenance' ), 'maintenance' ); ?>>
+                                Maintenance Mode (entire site)
+                            </option>
+                            <option value="front_page"
+                                <?php selected( get_option( WHM_OPT_MODE, 'front_page' ), 'front_page' ); ?>>
+                                Custom Front Page Only
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Front Page Source</th>
+                    <td>
+                        <select name="<?php echo esc_attr( WHM_OPT_SOURCE ); ?>">
+                            <option value="template"
+                                <?php selected( get_option( WHM_OPT_SOURCE, 'template' ), 'template' ); ?>>
+                                Built-in Maintenance Template
+                            </option>
+                            <option value="page"
+                                <?php selected( get_option( WHM_OPT_SOURCE, 'page' ), 'page' ); ?>>
+                                Existing WordPress Page
+                            </option>
+                        </select>
+                        <p class="description">
+                            Choose whether to display the built-in maintenance layout
+                            or an existing page.
+                        </p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Select Existing Page</th>
+                    <td>
+                        <?php
+                        wp_dropdown_pages(
+                            array(
+                                'name'              => WHM_OPT_PAGE_ID,
+                                'show_option_none'  => '— Select a page —',
+                                'option_none_value' => 0,
+                                'selected'          => (int) get_option( WHM_OPT_PAGE_ID, 0 ),
+                            )
+                        );
+                        ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th scope="row">Developer Messages</th>
+                    <td>
+                        <label>
+                            <input type="checkbox"
+                                   name="<?php echo esc_attr( WHM_OPT_SHOW_DEVMSG ); ?>"
+                                   value="1"
+                                   <?php checked( 1, get_option( WHM_OPT_SHOW_DEVMSG, 1 ) ); ?>>
+                            Show messages from the developer
+                        </label>
+                    </td>
+                </tr>
+
+            </table>
+
+            <?php submit_button(); ?>
+        </form>
+
+        <?php
+        /* -------------------------------------------------
+         * DEVELOPER MESSAGE (REMOTE, TOGGLEABLE)
+         * ------------------------------------------------- */
+        if ( (int) get_option( WHM_OPT_SHOW_DEVMSG, 1 ) ) :
+            $message = whm_get_developer_message();
+            if ( $message ) :
+        ?>
+            <div style="
+                margin-top:30px;
+                padding:15px 20px;
+                background:#0f172a;
+                color:#e5e7eb;
+                border-left:4px solid #7c3aed;
+                border-radius:4px;
+            ">
+                <h2 style="margin-top:0;color:#c4b5fd;">
+                    Message from the Developer
+                </h2>
+                <div style="white-space:pre-line;">
+                    <?php echo wp_kses_post( $message ); ?>
+                </div>
+            </div>
+        <?php
+            endif;
+        endif;
+        ?>
     </div>
-<?php
-    endif;
-endif;
-?>
-</div>
-<?php
+    <?php
 }
