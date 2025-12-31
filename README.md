@@ -1,8 +1,18 @@
-# Webhole Homepage Manager
+### Webhole Homepage Manager
+![Distribution: GitHub Only](https://img.shields.io/badge/Distribution-GitHub%20Only-black?style=for-the-badge&logo=github)
+![Version](https://img.shields.io/badge/Version-v0.1.2-1f2937?style=for-the-badge)
+![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-21759b?style=for-the-badge&logo=wordpress)
+![PHP](https://img.shields.io/badge/PHP-8.0%2B-4F5B93?style=for-the-badge&logo=php)
+![Focus: Minimal & Secure](https://img.shields.io/badge/Focus-Minimal%20%26%20Secure-0f172a?style=for-the-badge)
+![License](https://img.shields.io/badge/License-GPLv2%2B-065f46?style=for-the-badge)
+![Security](https://img.shields.io/badge/Security-Responsible%20Disclosure-7c2d12?style=for-the-badge)
 
+<<<<< Updated upstream
 ![Distribution: GitHub Only](https://img.shields.io/badge/Distribution-GitHub%20Only-black?style=for-the-badge&logo=github)
 ![Philosophy: Stability First](https://img.shields.io/badge/Philosophy-Stability%20First-0f172a?style=for-the-badge)
 
+=======
+>>>>>>> Stashed changes
 A lightweight WordPress plugin for maintenance mode and homepage replacement — without modifying your active theme.
 
 Built for developers, sysadmins, and site owners who want **control without bloat**.
@@ -21,7 +31,6 @@ Built for developers, sysadmins, and site owners who want **control without bloa
 - 🧼 No database clutter, no page builders, no shortcodes
 - 📣 Optional developer announcements (remote message feed)
 
----
 
 ## 🧠 How It Works
 
