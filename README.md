@@ -1,6 +1,9 @@
 # Webhole Homepage Manager
 
-**Webhole Homepage Manager** is a lightweight WordPress plugin that allows you to temporarily override your site’s homepage with a maintenance, holding, or custom page — without touching your theme or core files.
+![Distribution: GitHub Only](https://img.shields.io/badge/Distribution-GitHub%20Only-black?style=for-the-badge&logo=github)
+![Philosophy: Stability First](https://img.shields.io/badge/Philosophy-Stability%20First-0f172a?style=for-the-badge)
+
+A lightweight WordPress plugin for maintenance mode and homepage replacement — without modifying your active theme.
 
 Built for developers, sysadmins, and site owners who want **control without bloat**.
 
